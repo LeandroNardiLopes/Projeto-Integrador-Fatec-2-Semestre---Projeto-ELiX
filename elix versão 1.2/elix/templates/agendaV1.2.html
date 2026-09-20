@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block titulo %}Agenda{% endblock %}
+
+{% block conteudo %}
+
+<div class="mb-8">
+  <h1 class="text-2xl font-semibold text-white tracking-tight">Agenda</h1>
+  <p class="text-slate-500 text-sm mt-1">
+    Funcionamento: segunda a sexta, 08h–21h. Sábados e horários fora desse intervalo (antes das 08h ou a partir das 20h) são <span class="text-indigo-300">⭐ horário nobre</span>.
+  </p>
+</div>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+  <!-- ===================== FORMULÁRIO DE AGENDAMENTO ===================== -->
+  <div class="bg-panel border border-border rounded-xl p-6 h-fit">
+    <h2 class="text-sm font-medium text-white mb-4">Agendar nova aula</h2>
+    <form method="POST" class="space-y-4">
+      <div>
+        <label class="block text-xs font-medium text-slate-400 mb-1.5">Aluno</label>
+        <select name="aluno_id" required
+          class="w-full bg-panel2 border border-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-accent">
+          {% for aluno in alunos %}
+          <option value="{{ aluno.id }}">{{ aluno.nome }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-400 mb-1.5">Data</label>
+        <input type="date" name="data_aula" required
+          class="w-full bg-panel2 border border-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-accent">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Início</label>
+          <input type="time" name="hora_inicio" required
+            class="w-full bg-panel2 border border-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-accent">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1.5">Fim</label>
+          <input type="time" name="hora_fim" required
+            class="w-full bg-panel2 border border-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-accent">
+        </div>
+      </div>
+      <button type="submit"
+        class="w-full bg-accent hover:bg-accent2 text-white font-medium rounded-lg py-2.5 text-sm transition">
+        Agendar aula
+      </button>
+    </form>
+  </div>
+
+  <!-- ===================== PRÓXIMAS AULAS ===================== -->
+  <div class="md:col-span-2 bg-panel border border-border rounded-xl overflow-hidden">
+    <div class="px-6 py-4 border-b border-border">
+      <h2 class="text-sm font-medium text-white">Próximas aulas e histórico recente</h2>
+    </div>
+    <div class="divide-y divide-border max-h-[32rem] overflow-y-auto">
+      {% for a in proximos %}
+      <div class="px-6 py-3.5 flex items-center justify-between {% if a.horario_nobre %}bg-indigo-950/20{% endif %}">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-white font-medium">{{ a.aluno_nome }}</span>
+            {% if a.horario_nobre %}
+              <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-900">⭐ Horário nobre</span>
+            {% endif %}
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">{{ a.data_aula }} · {{ a.hora_inicio }} às {{ a.hora_fim }}</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          {% if a.status == 'agendada' %}
+            <span class="text-xs px-2 py-0.5 rounded-full bg-blue-950 text-blue-400 border border-blue-900">Agendada</span>
+            <form method="POST" action="{{ url_for('cancelar_agendamento', agendamento_id=a.id) }}">
+              <button type="submit" class="text-xs text-red-400 hover:text-red-300">Cancelar</button>
+            </form>
+          {% elif a.status == 'realizada' %}
+            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-900">Realizada</span>
+          {% elif a.status == 'cancelada' %}
+            <span class="text-xs px-2 py-0.5 rounded-full bg-red-950 text-red-400 border border-red-900">Cancelada</span>
+          {% endif %}
+        </div>
+      </div>
+      {% else %}
+      <p class="px-6 py-4 text-sm text-slate-600">Nenhuma aula agendada.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

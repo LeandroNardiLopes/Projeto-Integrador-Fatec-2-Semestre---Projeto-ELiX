@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block titulo %}Elix{% endblock %} — Elix</title>
+<!-- Tailwind CSS via CDN: não precisa instalar nada -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          base: '#0a0a0f',
+          panel: '#12121a',
+          panel2: '#1a1a24',
+          border: '#26262f',
+          accent: '#6366f1',
+          accent2: '#818cf8',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { background-color: #0a0a0f; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-thumb { background: #26262f; border-radius: 4px; }
+</style>
+</head>
+<body class="bg-base text-slate-200 min-h-screen font-[system-ui]">
+
+{% if session.get('usuario_id') %}
+<nav class="border-b border-border bg-panel/80 backdrop-blur sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-accent2 flex items-center justify-center font-bold text-white">E</div>
+      <span class="text-lg font-semibold tracking-tight text-white">Elix</span>
+    </div>
+
+    <div class="flex items-center gap-6 text-sm">
+      {% if usuario_tipo == 'professor' %}
+        <a href="{{ url_for('dashboard') }}" class="text-slate-400 hover:text-white transition">Dashboard</a>
+        <a href="{{ url_for('agenda') }}" class="text-slate-400 hover:text-white transition">Agenda</a>
+      {% else %}
+        <a href="{{ url_for('portal_progresso') }}" class="text-slate-400 hover:text-white transition">Meu Progresso</a>
+        <a href="{{ url_for('portal_materiais') }}" class="text-slate-400 hover:text-white transition">Materiais</a>
+        <a href="{{ url_for('portal_aulas') }}" class="text-slate-400 hover:text-white transition">Aulas Gravadas</a>
+      {% endif %}
+      <div class="w-px h-5 bg-border"></div>
+      <span class="text-slate-500">{{ usuario_nome }}</span>
+      <a href="{{ url_for('logout') }}" class="px-3 py-1.5 rounded-md border border-border text-slate-400 hover:text-white hover:border-slate-500 transition">Sair</a>
+    </div>
+  </div>
+</nav>
+{% endif %}
+
+<main class="max-w-6xl mx-auto px-6 py-8">
+
+  {% with mensagens = get_flashed_messages(with_categories=true) %}
+    {% if mensagens %}
+      <div class="mb-6 space-y-2">
+        {% for categoria, msg in mensagens %}
+          <div class="px-4 py-3 rounded-lg text-sm border
+            {% if categoria == 'erro' %} bg-red-950/50 border-red-900 text-red-300
+            {% else %} bg-emerald-950/50 border-emerald-900 text-emerald-300 {% endif %}">
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block conteudo %}{% endblock %}
+</main>
+
+<footer class="max-w-6xl mx-auto px-6 py-10 text-center text-xs text-slate-600">
+  Elix — Mentoria em Comunicação Profissional Bilíngue · {{ ano_atual }}
+</footer>
+
+</body>
+</html>

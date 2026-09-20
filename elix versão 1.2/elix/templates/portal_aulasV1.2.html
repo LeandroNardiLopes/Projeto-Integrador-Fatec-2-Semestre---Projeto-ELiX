@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Aulas Gravadas{% endblock %}
+
+{% block conteudo %}
+
+<div class="mb-8">
+  <h1 class="text-2xl font-semibold text-white tracking-tight">Aulas Gravadas</h1>
+  <p class="text-slate-500 text-sm mt-1">Acesse as gravações das suas aulas passadas</p>
+</div>
+
+<div class="space-y-3">
+  {% for aula in aulas %}
+  <a href="{{ aula.link }}" target="_blank"
+     class="flex items-center justify-between bg-panel border border-border rounded-xl px-5 py-4 hover:border-slate-500 transition group">
+    <div class="flex items-center gap-4">
+      <div class="w-10 h-10 rounded-lg bg-panel2 flex items-center justify-center text-accent2">▶</div>
+      <div>
+        <p class="text-sm text-white font-medium">{{ aula.titulo }}</p>
+        <p class="text-xs text-slate-500 mt-0.5">{{ aula.data_aula }}</p>
+      </div>
+    </div>
+    <span class="text-slate-600 group-hover:text-white transition text-sm">Assistir →</span>
+  </a>
+  {% else %}
+  <p class="text-sm text-slate-600">Nenhuma aula gravada disponível ainda.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

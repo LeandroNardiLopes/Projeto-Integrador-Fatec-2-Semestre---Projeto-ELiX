@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block titulo %}Meu Progresso{% endblock %}
+
+{% block conteudo %}
+
+<div class="mb-8">
+  <h1 class="text-2xl font-semibold text-white tracking-tight">Meu Progresso</h1>
+  <p class="text-slate-500 text-sm mt-1">Acompanhe suas etapas concluídas e pendentes</p>
+</div>
+
+<div class="grid md:grid-cols-3 gap-6 mb-6">
+
+  <!-- Barra de progresso geral -->
+  <div class="md:col-span-2 bg-panel border border-border rounded-xl p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-sm font-medium text-white">Progresso geral do curso</h2>
+      <span class="text-sm font-semibold text-accent2">{{ progresso_pct }}%</span>
+    </div>
+    <div class="w-full h-3 bg-panel2 rounded-full overflow-hidden mb-6">
+      <div class="h-full bg-gradient-to-r from-accent to-accent2 rounded-full" style="width: {{ progresso_pct }}%"></div>
+    </div>
+
+    <div class="space-y-2">
+      {% for etapa in etapas %}
+      <div class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-panel2/60 border border-border">
+        {% if etapa.status == 'concluida' %}
+          <span class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-[10px] text-white shrink-0">✓</span>
+        {% else %}
+          <span class="w-5 h-5 rounded-full border border-slate-600 shrink-0"></span>
+        {% endif %}
+        <span class="text-sm {% if etapa.status == 'concluida' %}text-slate-300 line-through decoration-slate-600{% else %}text-slate-400{% endif %}">
+          {{ etapa.titulo }}
+        </span>
+      </div>
+      {% else %}
+      <p class="text-sm text-slate-600">Suas etapas ainda serão cadastradas pelo seu mentor.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Próxima aula -->
+  <div class="bg-panel border border-border rounded-xl p-6">
+    <h2 class="text-sm font-medium text-white mb-4">Próxima aula</h2>
+    {% if proxima_aula %}
+      <p class="text-2xl font-semibold text-white">{{ proxima_aula.data_aula }}</p>
+      <p class="text-sm text-slate-400 mt-1">{{ proxima_aula.hora_inicio }} às {{ proxima_aula.hora_fim }}</p>
+      {% if proxima_aula.horario_nobre %}
+        <span class="inline-block mt-3 text-xs px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-900">⭐ Horário nobre</span>
+      {% endif %}
+    {% else %}
+      <p class="text-sm text-slate-600">Nenhuma aula agendada no momento.</p>
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- Atividades pendentes -->
+<div class="bg-panel border border-border rounded-xl overflow-hidden">
+  <div class="px-6 py-4 border-b border-border">
+    <h2 class="text-sm font-medium text-white">Atividades pendentes</h2>
+  </div>
+  <div class="divide-y divide-border">
+    {% for a in atividades_pendentes %}
+    <div class="px-6 py-3.5 flex items-center justify-between">
+      <div>
+        <p class="text-sm text-slate-300 font-medium">{{ a.titulo }}</p>
+        {% if a.descricao %}<p class="text-xs text-slate-500 mt-0.5">{{ a.descricao }}</p>{% endif %}
+      </div>
+      <div class="text-right shrink-0 ml-4">
+        <p class="text-xs text-slate-500">Prazo: {{ a.data_entrega or '—' }}</p>
+        {% if a.status == 'atrasada' %}
+          <span class="text-xs text-red-400">Atrasada</span>
+        {% else %}
+          <span class="text-xs text-amber-400">Pendente</span>
+        {% endif %}
+      </div>
+    </div>
+    {% else %}
+    <p class="px-6 py-4 text-sm text-slate-600">Você está em dia com todas as atividades! 🎉</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
