@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block titulo %}Meu Portal{% endblock %}
+{% block conteudo %}
+
+<h1 class="text-2xl font-semibold text-white tracking-tight mb-6">Meu Portal</h1>
+
+<div class="bg-panel border border-border rounded-xl p-6 mb-6">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-sm font-medium text-white">Meu progresso</h2>
+    <span class="text-sm font-semibold text-accent2">{{ progresso_pct }}%</span>
+  </div>
+  <div class="w-full h-3 bg-panel2 rounded-full overflow-hidden mb-5">
+    <div class="h-full bg-gradient-to-r from-accent to-accent2 rounded-full" style="width: {{ progresso_pct }}%"></div>
+  </div>
+  <div class="space-y-2">
+    {% for etapa in etapas %}
+    <div class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-panel2/60 border border-border">
+      {% if etapa.status == 'concluida' %}
+        <span class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-[10px] text-white shrink-0">✓</span>
+      {% else %}
+        <span class="w-5 h-5 rounded-full border border-slate-600 shrink-0"></span>
+      {% endif %}
+      <span class="text-sm {% if etapa.status == 'concluida' %}text-slate-300 line-through decoration-slate-600{% else %}text-slate-400{% endif %}">{{ etapa.titulo }}</span>
+    </div>
+    {% else %}
+    <p class="text-sm text-slate-600">Suas etapas ainda serão cadastradas pelo seu mentor.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6 mb-6">
+
+  <div class="bg-panel border border-border rounded-xl overflow-hidden">
+    <div class="px-6 py-4 border-b border-border"><h2 class="text-sm font-medium text-white">Materiais</h2></div>
+    <div class="divide-y divide-border">
+      {% for m in materiais %}
+      <a href="{{ m.link }}" target="_blank" class="flex items-center justify-between px-6 py-3.5 hover:bg-panel2/50 transition">
+        <div>
+          <p class="text-sm text-white">{{ m.titulo }}</p>
+          <p class="text-xs text-slate-500">{{ m.tipo }}</p>
+        </div>
+        <span class="text-accent2">⬇</span>
+      </a>
+      {% else %}
+      <p class="px-6 py-4 text-sm text-slate-600">Nenhum material ainda.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="bg-panel border border-border rounded-xl overflow-hidden">
+    <div class="px-6 py-4 border-b border-border"><h2 class="text-sm font-medium text-white">Aulas gravadas</h2></div>
+    <div class="divide-y divide-border">
+      {% for a in aulas %}
+      <a href="{{ a.link }}" target="_blank" class="flex items-center justify-between px-6 py-3.5 hover:bg-panel2/50 transition">
+        <div>
+          <p class="text-sm text-white">{{ a.titulo }}</p>
+          <p class="text-xs text-slate-500">{{ a.data }}</p>
+        </div>
+        <span class="text-accent2">▶</span>
+      </a>
+      {% else %}
+      <p class="px-6 py-4 text-sm text-slate-600">Nenhuma aula ainda.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+<div class="bg-panel border border-border rounded-xl overflow-hidden">
+  <div class="px-6 py-4 border-b border-border"><h2 class="text-sm font-medium text-white">Atividades pendentes</h2></div>
+  <div class="divide-y divide-border">
+    {% for a in atividades_pendentes %}
+    <div class="px-6 py-3.5 flex items-center justify-between">
+      <p class="text-sm text-slate-300">{{ a.titulo }}</p>
+      <span class="text-xs text-slate-500">Prazo: {{ a.prazo }}</span>
+    </div>
+    {% else %}
+    <p class="px-6 py-4 text-sm text-slate-600">Você está em dia! 🎉</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

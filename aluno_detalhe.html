@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block titulo %}{{ aluno.nome }}{% endblock %}
+{% block conteudo %}
+
+<a href="{{ url_for('dashboard') }}" class="text-xs text-slate-500 hover:text-white transition">← Voltar</a>
+<h1 class="text-2xl font-semibold text-white tracking-tight mt-2 mb-1">{{ aluno.nome }}</h1>
+<p class="text-slate-500 text-sm mb-6">Nicho: {{ aluno.nicho }}</p>
+
+<div class="bg-panel border border-border rounded-xl p-6 mb-6">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-sm font-medium text-white">Progresso do conteúdo</h2>
+    <span class="text-sm font-semibold text-accent2">{{ progresso_pct }}%</span>
+  </div>
+  <div class="w-full h-2.5 bg-panel2 rounded-full overflow-hidden mb-5">
+    <div class="h-full bg-gradient-to-r from-accent to-accent2 rounded-full" style="width: {{ progresso_pct }}%"></div>
+  </div>
+  <div class="space-y-2">
+    {% for etapa in etapas %}
+    <form method="POST" action="{{ url_for('concluir_etapa', aluno_id=aluno.id, etapa_id=etapa.id) }}"
+          class="flex items-center justify-between px-4 py-2.5 rounded-lg bg-panel2/60 border border-border">
+      <span class="text-sm {% if etapa.status == 'concluida' %}text-slate-300{% else %}text-slate-400{% endif %}">{{ etapa.titulo }}</span>
+      <button type="submit" class="text-xs px-3 py-1 rounded-full font-medium transition
+        {% if etapa.status == 'concluida' %} bg-emerald-950 text-emerald-400 border border-emerald-900
+        {% else %} bg-slate-800 text-slate-400 border border-slate-700 {% endif %}">
+        {% if etapa.status == 'concluida' %}✓ Concluída{% else %}Marcar concluída{% endif %}
+      </button>
+    </form>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6 mb-6">
+
+  <div class="bg-panel border border-border rounded-xl overflow-hidden">
+    <div class="px-6 py-4 border-b border-border"><h2 class="text-sm font-medium text-white">Frequência</h2></div>
+    <div class="divide-y divide-border">
+      {% for f in frequencia %}
+      <div class="px-6 py-3.5 {% if f.nobre %}bg-indigo-950/20{% endif %}">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-slate-300">{{ f.data }} · {{ f.hora }}</span>
+          {% if f.nobre %}<span class="text-xs px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-300 border border-indigo-900">⭐ Nobre</span>{% endif %}
+        </div>
+        <span class="text-xs {% if f.presente %}text-emerald-400{% else %}text-red-400{% endif %}">
+          {% if f.presente %}● Presente{% else %}● Faltou{% endif %}
+        </span>
+      </div>
+      {% else %}
+      <p class="px-6 py-4 text-sm text-slate-600">Nenhum registro.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="bg-panel border border-border rounded-xl overflow-hidden">
+    <div class="px-6 py-4 border-b border-border"><h2 class="text-sm font-medium text-white">Atividades</h2></div>
+    <div class="divide-y divide-border">
+      {% for a in atividades %}
+      <div class="px-6 py-3.5">
+        <p class="text-sm text-slate-300 font-medium">{{ a.titulo }}</p>
+        <div class="flex items-center justify-between mt-2">
+          <span class="text-xs text-slate-600">Prazo: {{ a.prazo }}</span>
+          <form method="POST" action="{{ url_for('atualizar_status_atividade', aluno_id=aluno.id, atividade_id=a.id) }}">
+            <select name="status" onchange="this.form.submit()" class="text-xs bg-panel2 border border-border rounded-md px-2 py-1 text-slate-300">
+              <option value="pendente" {% if a.status == 'pendente' %}selected{% endif %}>Pendente</option>
+              <option value="entregue" {% if a.status == 'entregue' %}selected{% endif %}>Entregue</option>
+              <option value="atrasada" {% if a.status == 'atrasada' %}selected{% endif %}>Atrasada</option>
+            </select>
+          </form>
+        </div>
+      </div>
+      {% else %}
+      <p class="px-6 py-4 text-sm text-slate-600">Nenhuma atividade.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+<div class="bg-panel border border-border rounded-xl overflow-hidden">
+  <div class="px-6 py-4 border-b border-border"><h2 class="text-sm font-medium text-white">Financeiro</h2></div>
+  <table class="w-full text-sm">
+    <tbody>
+      {% for fin in financeiro %}
+      <tr class="border-b border-border last:border-0">
+        <td class="px-6 py-3 text-slate-300">{{ fin.descricao }}</td>
+        <td class="px-6 py-3 text-slate-300">R$ {{ "%.2f"|format(fin.valor) }}</td>
+        <td class="px-6 py-3 text-slate-400">{{ fin.vencimento }}</td>
+        <td class="px-6 py-3">
+          {% if fin.status == 'pago' %}
+            <span class="px-2 py-0.5 rounded-full text-xs bg-emerald-950 text-emerald-400 border border-emerald-900">Pago</span>
+          {% else %}
+            <span class="px-2 py-0.5 rounded-full text-xs bg-slate-800 text-slate-400 border border-slate-700">{{ fin.status|capitalize }}</span>
+          {% endif %}
+        </td>
+        <td class="px-6 py-3 text-right">
+          {% if fin.status != 'pago' %}
+          <form method="POST" action="{{ url_for('marcar_pago', aluno_id=aluno.id, financeiro_id=fin.id) }}">
+            <button type="submit" class="text-xs text-accent2 hover:text-white">Marcar como pago</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

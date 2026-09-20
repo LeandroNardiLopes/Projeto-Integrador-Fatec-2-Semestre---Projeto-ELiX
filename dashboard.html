@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block titulo %}Dashboard{% endblock %}
+{% block conteudo %}
+
+<div class="mb-8">
+  <h1 class="text-2xl font-semibold text-white tracking-tight">Painel do Professor</h1>
+  <p class="text-slate-500 text-sm mt-1">Dados de demonstração (em memória)</p>
+</div>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+  <div class="bg-panel border border-border rounded-xl p-5">
+    <p class="text-xs text-slate-500 mb-1">Alunos ativos</p>
+    <p class="text-3xl font-semibold text-white">{{ kpis.total_alunos }}</p>
+  </div>
+  <div class="bg-panel border border-border rounded-xl p-5">
+    <p class="text-xs text-slate-500 mb-1">Aulas realizadas</p>
+    <p class="text-3xl font-semibold text-white">{{ kpis.aulas_realizadas }}</p>
+  </div>
+  <div class="bg-panel border border-border rounded-xl p-5">
+    <p class="text-xs text-slate-500 mb-1">Faltas registradas</p>
+    <p class="text-3xl font-semibold text-white">{{ kpis.aulas_faltas }}</p>
+  </div>
+  <div class="bg-panel border border-border rounded-xl p-5">
+    <p class="text-xs text-slate-500 mb-1">Média de frequência</p>
+    <p class="text-3xl font-semibold text-white">{{ kpis.media_frequencia }}%</p>
+    <div class="w-full h-1.5 bg-panel2 rounded-full overflow-hidden mt-2">
+      <div class="h-full bg-accent rounded-full" style="width: {{ kpis.media_frequencia }}%"></div>
+    </div>
+  </div>
+</div>
+
+<div class="bg-panel border border-border rounded-xl overflow-hidden">
+  <div class="px-6 py-4 border-b border-border">
+    <h2 class="text-sm font-medium text-white">Alunos</h2>
+  </div>
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="text-left text-xs text-slate-500 border-b border-border">
+        <th class="px-6 py-3 font-medium">Aluno</th>
+        <th class="px-6 py-3 font-medium">Nicho</th>
+        <th class="px-6 py-3 font-medium">Atividades pendentes</th>
+        <th class="px-6 py-3 font-medium">Financeiro</th>
+        <th class="px-6 py-3 font-medium"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for aluno in alunos %}
+      <tr class="border-b border-border last:border-0 hover:bg-panel2/50 transition">
+        <td class="px-6 py-3.5 text-white font-medium">{{ aluno.nome }}</td>
+        <td class="px-6 py-3.5 text-slate-400">{{ aluno.nicho }}</td>
+        <td class="px-6 py-3.5">
+          {% if aluno.pendencias > 0 %}
+            <span class="px-2 py-0.5 rounded-full text-xs bg-amber-950 text-amber-400 border border-amber-900">{{ aluno.pendencias }} pendente(s)</span>
+          {% else %}
+            <span class="px-2 py-0.5 rounded-full text-xs bg-emerald-950 text-emerald-400 border border-emerald-900">Em dia</span>
+          {% endif %}
+        </td>
+        <td class="px-6 py-3.5">
+          {% if aluno.status_financeiro == 'pago' %}
+            <span class="px-2 py-0.5 rounded-full text-xs bg-emerald-950 text-emerald-400 border border-emerald-900">Pago</span>
+          {% elif aluno.status_financeiro == 'atrasado' %}
+            <span class="px-2 py-0.5 rounded-full text-xs bg-red-950 text-red-400 border border-red-900">Atrasado</span>
+          {% else %}
+            <span class="px-2 py-0.5 rounded-full text-xs bg-slate-800 text-slate-400 border border-slate-700">Pendente</span>
+          {% endif %}
+        </td>
+        <td class="px-6 py-3.5 text-right">
+          <a href="{{ url_for('aluno_detalhe', aluno_id=aluno.id) }}" class="text-accent2 hover:text-white text-xs font-medium transition">Ver detalhes →</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
