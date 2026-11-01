@@ -1,5 +1,5 @@
 > **Versão atual do projeto: pasta [`luvia/`](luvia/)** (Luvia, antigo ELiX), em HTML, CSS, PHP 8 e MySQL.
-> Versão 1 (telas principais: login, painel, agenda e alunos). Instruções de instalação em [`luvia/README.md`](luvia/README.md)
+> **Versão Luvia 1.4.0** = versão 1 do sistema (telas principais: login, painel, agenda e alunos). Histórico em [`CHANGELOG.md`](CHANGELOG.md). Instruções de instalação em [`luvia/README.md`](luvia/README.md)
 > e documentação técnica em [`luvia/docs/`](luvia/docs/).
 > Os arquivos abaixo são o protótipo inicial em Python/Flask, mantido só como histórico do estudo.
 
