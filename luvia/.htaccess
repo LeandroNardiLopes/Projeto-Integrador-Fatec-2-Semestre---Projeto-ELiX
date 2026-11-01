@@ -1,0 +1,7 @@
+<Files ".env">
+  Require all denied
+</Files>
+<FilesMatch "\.(md|sql|example)$">
+  Require all denied
+</FilesMatch>
+Options -Indexes

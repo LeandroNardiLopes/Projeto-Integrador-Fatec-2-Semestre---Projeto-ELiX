@@ -1,3 +1,8 @@
+> **Versão atual do projeto: pasta [`luvia/`](luvia/)** (Luvia, antigo ELiX), em HTML, CSS, PHP 8 e MySQL.
+> Versão 1 (telas principais: login, painel, agenda e alunos). Instruções de instalação em [`luvia/README.md`](luvia/README.md)
+> e documentação técnica em [`luvia/docs/`](luvia/docs/).
+> Os arquivos abaixo são o protótipo inicial em Python/Flask, mantido só como histórico do estudo.
+
 # Elix — Protótipo Simplificado (front-end + back-end, sem banco real)
 
 Esta é uma versão **reduzida e demonstrativa** do Elix. O objetivo dela é mostrar
