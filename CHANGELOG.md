@@ -1,5 +1,21 @@
 # Histórico de versões · Luvia (antigo ELiX)
 
+## Luvia 2.0 · 06/11/2026
+Versão 2 do sistema: **completa**, na pasta [`luvia/`](luvia/) (substitui a versão 1 nessa pasta).
+
+- Tudo da versão 1 (login, painel, agenda e alunos), mais:
+- Leads: funil (novo, em contato, convertido, desistiu), entrevista e conversão em aluno.
+- Cursos: cursos, módulos e lista semana a semana.
+- Ficha do aluno completa: etapas personalizadas, atividades com prazo, diário de bordo, materiais, gravações e financeiro.
+- Financeiro: cobranças, parcelas do contrato, pagamentos, atrasos automáticos e pendências.
+- Minha conta: dados e senha, registro de ações e cópia de segurança com restauração.
+- Documentação técnica v2 em [`luvia/docs/`](luvia/docs/) (Word e PDF).
+- Diagrama de Casos de Uso (ESI) em [`luvia/docs/casos-de-uso/`](luvia/docs/casos-de-uso/): arquivo do draw.io, imagem e PDF de entrega.
+- Organização do repositório: o protótipo antigo em Python/Flask foi para [`prototipo-antigo/`](prototipo-antigo/); o `luvia-v2-completo.zip` e o docx soltos na raiz (da 1.4.1) foram trocados pelos arquivos abertos na pasta `luvia/`.
+
+## Luvia 1.4.1 · 03/11/2026
+Envio do `luvia-v2-completo.zip` e da documentação técnica v2 na raiz do repositório.
+
 ## Luvia 1.4.0 · 01/11/2026
 Versão 1 do sistema: **telas principais**, na pasta [`luvia/`](luvia/).
 

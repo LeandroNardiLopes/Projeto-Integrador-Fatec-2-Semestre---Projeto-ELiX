@@ -1,9 +1,9 @@
-# Luvia · Versão 1 (telas principais)
+# Luvia · Versão 2 (completa)
 
 Sistema de gestão da mentoria em comunicação profissional bilíngue da mentora Lilian Mesquita.
 Projeto Integrador (PI-2) · DSM · Fatec Itapira · 2º semestre de 2026.
 
-Esta é a **versão 1**: login, painel, alunos e agenda. A versão 2 completa o sistema.
+Esta é a **versão 2 (completa)**: todos os módulos do sistema.
 
 **Tecnologias:** HTML5, CSS3, PHP 8 e MySQL 8 (ou MariaDB, que vem no XAMPP). Arquitetura MVC, sem frameworks.
 **Uso:** uma única usuária (a mentora, que também é a administradora). O sistema roda no computador dela, sem hospedagem.
@@ -44,12 +44,13 @@ Sem o `.env`, o sistema usa o padrão do XAMPP (usuário `root`, sem senha).
 
 ## O que tem no sistema
 
-- **Login** com criação da senha no primeiro acesso (RF01).
-- **Painel:** indicadores, alertas do dia, próximos compromissos, estatísticas dos últimos 3 meses e progresso dos alunos (RF30 a RF32).
-- **Agenda:** semana de segunda a domingo, agendar aula (aluno) ou entrevista (lead), horário nobre automático, cancelar com motivo, presença e falta, reposição (RF13 a RF17, RF20).
-- **Alunos:** lista com busca e filtros, cadastro com escolha do curso (o sistema monta as 12 semanas com as datas), edição, inativação e reativação, e a ficha com dados, Mapa da Cena, nível de fluência, cronograma do curso, aulas e frequência (RF05 a RF09, RF19).
-
-**Fica para a versão 2:** leads, cursos e módulos, personalizar etapas, atividades, diário de bordo, materiais e gravações, financeiro, minha conta, registro de ações e cópia de segurança.
+Tudo da versão 1 (login, painel, agenda e alunos), mais:
+- **Leads:** funil (novo, em contato, convertido, desistiu), cadastro, entrevista e conversão em aluno (RF10 a RF12).
+- **Cursos:** cursos, módulos e lista semana a semana; mudar um curso não altera os alunos que já estão nele (RF18, RN11).
+- **Ficha do aluno completa:** montar o curso, concluir e reabrir semanas, adicionar, editar, mover e excluir etapas (RF19, RF21), atividades com prazo (RF22), diário de bordo (RF23), materiais e gravações (RF24, RF25) e financeiro.
+- **Materiais e gravações:** links de e-books, PDFs e aulas gravadas, gerais ou por aluno (RF24, RF25).
+- **Financeiro:** cobranças avulsas, parcelas do contrato geradas de uma vez, baixa com data e forma de pagamento, atrasos automáticos e pendências (RF26 a RF29).
+- **Minha conta:** dados e troca de senha (RF02), registro de ações (RF03) e cópia de segurança com restauração (RF04).
 
 ### Regras que o sistema garante (ficam no banco de dados)
 - Horário nobre automático: qualquer horário aos sábados, ou aulas que começam antes das 08h00 ou a partir das 20h00.
@@ -105,12 +106,12 @@ As regras de negócio ficam no banco, em **stored procedures** (ex.: `sp_agendar
 
 ## Testes realizados
 
-Testado em PHP 8.3 com MySQL 8.0 e com MariaDB 10.11 (o banco do XAMPP): 53 verificações automáticas passaram, cobrindo login, primeiro acesso, bloqueio de SQL injection e XSS, token CSRF, todas as telas desta versão, conflito de horário, horário nobre, falta, reposição, cancelamento com motivo, cadastro com curso, edição, inativação e reativação.
+Testado em PHP 8.3 com MySQL 8.0 e com MariaDB 10.11 (o banco do XAMPP): 88 verificações automáticas passaram, cobrindo login, primeiro acesso, bloqueio de SQL injection e XSS, token CSRF, todas as telas e as regras de agenda, alunos, etapas, atividades, diário, leads, cursos, materiais, financeiro, troca de senha e cópia de segurança (inclusive recusa de arquivo alterado).
 
 Para rodar o teste automático (opcional, precisa do Node.js):
 ```bash
 npm install playwright
 npx playwright install chromium
 # com o banco recém-importado e o sistema aberto em http://localhost/luvia/public
-node tests/e2e.js http://localhost/luvia/public v1
+node tests/e2e.js http://localhost/luvia/public v2
 ```

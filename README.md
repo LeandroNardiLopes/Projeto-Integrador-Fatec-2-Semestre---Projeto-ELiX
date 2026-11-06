@@ -1,9 +1,28 @@
-> **Versão atual do projeto: pasta [`luvia/`](luvia/)** (Luvia, antigo ELiX), em HTML, CSS, PHP 8 e MySQL.
-> **Versão Luvia 1.4.0** = versão 1 do sistema (telas principais: login, painel, agenda e alunos). Histórico em [`CHANGELOG.md`](CHANGELOG.md). Instruções de instalação em [`luvia/README.md`](luvia/README.md)
-> e documentação técnica em [`luvia/docs/`](luvia/docs/).
-> Os arquivos abaixo são o protótipo inicial em Python/Flask, mantido só como histórico do estudo.
+# Luvia · Gestão de Mentoria (antigo ELiX)
 
-# Elix — Protótipo Simplificado (front-end + back-end, sem banco real)
+Projeto Integrador (PI-2) · DSM · Fatec Itapira · 2º semestre de 2026.
+Integrantes: Bruno Henrique, Leandro Nardi, Felippe Silva, Eliabe Miguel, Pedro Rogerio e Isac Gomes.
+
+> **Versão atual: Luvia 2.0 = versão 2 (completa), na pasta [`luvia/`](luvia/).**
+> HTML, CSS, PHP 8 e MySQL 8 / MariaDB (XAMPP), arquitetura MVC.
+
+| O que | Onde |
+|---|---|
+| Código do sistema (versão 2 completa) | [`luvia/`](luvia/) |
+| Como instalar e testar | [`luvia/README.md`](luvia/README.md) |
+| Banco de dados (tabelas, views, procedures e dados fictícios) | [`luvia/database/luvia_mysql.sql`](luvia/database/luvia_mysql.sql) |
+| Documentação técnica v2 (Word e PDF) | [`luvia/docs/`](luvia/docs/) |
+| Diagrama de Casos de Uso (draw.io, PNG e PDF da ESI) | [`luvia/docs/casos-de-uso/`](luvia/docs/casos-de-uso/) |
+| Levantamento de requisitos | [`Levantamento de Requisitos`](Levantamento%20de%20Requisitos) |
+| Histórico de versões | [`CHANGELOG.md`](CHANGELOG.md) |
+| Versão 1 (só telas principais) | release/tag `Luvia1.4.0` |
+| Protótipo inicial em Python/Flask (só histórico do estudo) | [`prototipo-antigo/`](prototipo-antigo/) |
+
+---
+
+## Histórico: protótipo inicial (pasta `prototipo-antigo/`)
+
+### Elix — Protótipo Simplificado (front-end + back-end, sem banco real)
 
 Esta é uma versão **reduzida e demonstrativa** do Elix. O objetivo dela é mostrar
 o front-end (HTML + Tailwind) e o back-end (Flask) já funcionando e conversando
